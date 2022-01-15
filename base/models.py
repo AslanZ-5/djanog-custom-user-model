@@ -1,10 +1,16 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
-from django.db.models.fields import TextField
+from django.contrib.auth.models import User
 
-class User(AbstractUser):
-    name = models.CharField(max_length=200,null=True)
-    email = models.EmailField(unique=True)
-    bio = models.TextField(null=True)
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []    
+
+class Comment(models.Model):
+    post = models.ForeignKey('Post', on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+
+
+class Post(models.Model):
+    title = models.CharField(max_length=220)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
