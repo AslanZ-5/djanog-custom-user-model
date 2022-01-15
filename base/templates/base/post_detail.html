@@ -1,0 +1,16 @@
+<h1>Post Detail</h1>
+
+
+{{post.id}}
+{{post.title}}
+
+{% for i in post.comment_set.all %}
+   <p>{{i.author}}</p>
+   <p>{{i.content}}</p>
+{% endfor %}
+
+<form action="" method="post">
+   {% csrf_token %}
+{{ form }}
+   <button type="submit"> comment</button>
+   </form>
