@@ -13,7 +13,14 @@ class TestAdminPermissions(admin.ModelAdmin):
     def has_change_permission(self, request, obj=None):
         return False
 
+    def has_delete_permission(self, request, obj=None):
+        if request.user.groups.filter(name='editor').exists():
+            return True
+        
+        return False
 
+    def has_view_permission(self, request, obj=None):
+        return True
 blog_site = BlogAdminArea(name='BlogAdmin')
 
 blog_site.register(Post, TestAdminPermissions)
