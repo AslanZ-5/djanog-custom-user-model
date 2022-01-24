@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Comment, Post
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.urls import path
 from django import forms
 
@@ -26,7 +26,10 @@ class TestPostAdmin(admin.ModelAdmin):
             csv_data = file_data.split("\n")
             for i in csv_data:
                 fields = i.split(',')
-                print('---------', fields)
+                if len(fields) == 3:
+                    created = Post.objects.update_or_create(title=fields[0],author_id=fields[1],content=fields[2])
+            return redirect('admin/')
+
 
         form = CsvImportForm()
         data = {'form': form}
