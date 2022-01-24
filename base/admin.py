@@ -1,10 +1,10 @@
 from django.contrib import admin
 from .models import Comment, Post
 from django.shortcuts import render,redirect
-from django.urls import path
+from django.urls import path,reverse
 from django import forms
-
-
+from django.contrib import  messages
+from django.http import  HttpResponseRedirect
 class CsvImportForm(forms.Form):
     csv_upload = forms.FileField()
 
@@ -22,13 +22,18 @@ class TestPostAdmin(admin.ModelAdmin):
     def csv_view(self, request):
         if request.method == 'POST':
             csv_files = request.FILES['csv_upload']
+            if not csv_files.name.endswith('.csv'):
+                messages.warning(request,'The wrong file type was uploaded')
+                print(request.path_info)
+                return HttpResponseRedirect(request.path_info)
             file_data = csv_files.read().decode("utf-8")
             csv_data = file_data.split("\n")
             for i in csv_data:
                 fields = i.split(',')
                 if len(fields) == 3:
                     created = Post.objects.update_or_create(title=fields[0],author_id=fields[1],content=fields[2])
-            return redirect('admin/')
+            url = reverse('admin:index')
+            return HttpResponseRedirect(url)
 
 
         form = CsvImportForm()
