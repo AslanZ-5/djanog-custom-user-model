@@ -3,5 +3,11 @@
 {% block content %}
 <div>
     Hello world
+    <form action="." method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit"> Upload</button>
+    </form>
+
 </div>
 {% endblock %}
