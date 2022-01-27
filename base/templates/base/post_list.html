@@ -1,1 +1,12 @@
 <h1>Post list </h1>
+<div>
+{% for i in object_list %}
+    <div>
+        <p>{{i.title}} <small>created: by {{i.author}} {{i.created|timesince}} ago</small></p>
+        <p>{{i.content}}</p>
+
+    </div>
+{% endfor %}
+
+
+    </div>
