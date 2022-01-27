@@ -1,1 +1,1 @@
-web:gunicorn usermodel.wsgi
+web: gunicorn usermodel.wsgi
